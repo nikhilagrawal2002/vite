@@ -1,36 +1,61 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [username, setusername] = useState("");
+  const [error, seterror] = useState(false);
+  const [gender, setgender] = useState("male");
 
+  const SubmitHandler = (e) => {
+    e.preventDefault();
+    console.log(username, gender);
+  };
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+    <div className="w-screen h-screen bg-zinc-500 flex items-center justify-center">
+      <form className="flex flex-col items-center justify-center" onSubmit={SubmitHandler}>
+        <input
+          type="text"
+          name="username"
+          placeholder="username"
+          onChange={(e) => {
+            setusername(e.target.value);
+          }}
+          value={username}
+          onInput={(e) =>
+            e.target.value.length < 5 ? seterror(true) : seterror(false)
+          }
+        />
+        <div>
+        <input
+          type="radio"
+          defaultValue="male"
+          name="gender"
+          checked={gender === "male" ? true : false}
+          onChange={(e) => setgender(e.target.value)}
+        />{" "}
+        Male 
+        </div>
+        <div>
+        <input
+          type="radio"
+          defaultValue="female"
+          name="gender"
+          checked={gender === "female" ? true : false}
+          onChange={(e) => setgender(e.target.value)}
+        />{" "}
+        Female
+        </div>
+        {error && (
+          <p style={{ color: "red" }}>
+            Username should be at least 5 characters long
+          </p>
+        )}
+        <br />
+        <button type="submit" disabled={error}>
+          Submit
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      <h1 className="text-3xl font-bold underline text-zinc-700">Hello world from tailwind!</h1>
-    </>
-  )
-}
+      </form>
+    </div>
+  );
+};
 
-export default App
+export default App;
